@@ -7,6 +7,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 //routes
+
 app.get("/", async function(req,res){
     
     let imageUrlArray = await getRandomImage("", 1);
@@ -15,11 +16,13 @@ app.get("/", async function(req,res){
 });
 
 
+
 app.get("/search", async function(req,res){
     
     let keyword ="";
     if(req.query.keyword){
-        keyword = req.query.keyword;
+        keyword = req.query.keyword.trim();
+        console.log("Search keyword:", keyword);
     }
     
     let imageUrlArray = await getRandomImage(keyword, 9);
@@ -49,10 +52,10 @@ app.get("/api/updateFavorites", function(req, res) {
     
 }); //api/updateFavorites
 
-app.get("/getKeywords",  function(req, res) {
+app.get("/getKeywords",  async function(req, res) {
     
   let sql = "SELECT DISTINCT keyword FROM favorites ORDER BY keyword";
-  let imageUrlArray = ["img/favorite.png"];
+  let imageUrlArray = await getRandomImage("", 1);
   pool.query(sql, function (err, rows, fields) {
      if (err) throw err;
      console.log(rows);
@@ -101,6 +104,7 @@ async function getRandomImage(keyword, count){
     });
      
 }
+
 
 //starting server
 /*

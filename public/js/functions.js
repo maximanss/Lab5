@@ -8,7 +8,7 @@ $(document).ready(function(){
         
         let queryString = window.location.search;
         let urlParams = new URLSearchParams(queryString);
-        let keyword = urlParams.get("keyword");
+        let keyword = urlParams.get("keyword").trim();
         
         let imageUrl = $(this).prev().attr("src");
         
